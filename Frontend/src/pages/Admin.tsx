@@ -20,7 +20,7 @@ export default function Admin() {
   if (form.total_seats <= 0) return setError("Seats invalid");
 
   try {
-    const res = await api.post("/shows", form);
+    // const res = await api.post("/shows", form);
 
     setStatus("CONFIRMED"); 
     setForm({ name: "", start_time: "", total_seats: 40 });
