@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const db = require('../config/db');
 
-// GET seats for a show
+
 router.get('/shows/:showId/seats', async (req, res) => {
   const { showId } = req.params;
 
