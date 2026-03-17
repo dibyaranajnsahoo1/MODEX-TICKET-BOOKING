@@ -1,0 +1,55 @@
+import { useEffect, useState } from "react";
+import { api } from "../api/axios";
+import { Link } from "react-router-dom";
+
+export default function Home() {
+  const [shows, setShows] = useState([]);
+
+  useEffect(() => {
+    api.get("/shows").then(res => setShows(res.data));
+  }, []);
+
+  return (
+    <div className="container">
+      <h1 className="title">🎬 Now Showing</h1>
+
+      <div className="grid">
+        {shows.map((s: any) => {
+          const dateObj = new Date(s.start_time);
+
+          const date = dateObj.toLocaleDateString("en-IN", {
+            day: "numeric",
+            month: "short",
+            year: "numeric",
+          });
+
+          const time = dateObj.toLocaleTimeString("en-IN", {
+            hour: "2-digit",
+            minute: "2-digit",
+          });
+
+          return (
+            <div key={s.id} className="card movie-card">
+              
+              {/* Poster Placeholder */}
+              <div className="poster">
+                🎥
+              </div>
+
+              <h3 className="movie-title">{s.name}</h3>
+
+              <div className="datetime">
+                <span className="date">📅 {date}</span>
+                <span className="time">⏰ {time}</span>
+              </div>
+
+              <Link to={`/booking/${s.id}`}>
+                <button className="btn book-btn">Book Now</button>
+              </Link>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
