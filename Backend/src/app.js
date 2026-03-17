@@ -13,7 +13,6 @@ app.use(express.json());
 app.use('/shows', showRoutes);
 app.use('/bookings', bookingRoutes);
 
-
 app.use('/shows', seatRoutes);
 
 module.exports = app;
