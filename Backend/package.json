@@ -1,0 +1,29 @@
+{
+  "name": "crioxmodex002",
+  "version": "1.0.0",
+  "description": "booking-ticket",
+  "main": "index.js",
+  "scripts": {
+    "test": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dibyaranajnsahoo1/MODEX-TICKET-BOOKING.git"
+  },
+  "author": "Dibya_ranjan_sahoo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dibyaranajnsahoo1/MODEX-TICKET-BOOKING/issues"
+  },
+  "homepage": "https://github.com/dibyaranajnsahoo1/MODEX-TICKET-BOOKING#readme",
+  "keywords": [],
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "ioredis": "^5.10.0",
+    "node-cron": "^4.2.1",
+    "pg": "^8.20.0",
+    "uuid": "^13.0.0"
+  }
+}

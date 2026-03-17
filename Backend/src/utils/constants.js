@@ -1,0 +1,13 @@
+module.exports = {
+  SEAT_STATUS: {
+    AVAILABLE: 'AVAILABLE',
+    LOCKED: 'LOCKED',
+    BOOKED: 'BOOKED',
+  },
+
+  BOOKING_STATUS: {
+    PENDING: 'PENDING',
+    CONFIRMED: 'CONFIRMED',
+    FAILED: 'FAILED',
+  },
+};
