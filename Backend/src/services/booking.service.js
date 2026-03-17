@@ -16,22 +16,17 @@ exports.bookSeats = async (showId, seatNumbers) => {
       showId,
       seatNumbers
     );
-
-    // Check availability
     if (seats.some(s => s.status !== 'AVAILABLE')) {
       await client.query('ROLLBACK');
       return { status: 'FAILED', message: 'Seats not available' };
     }
 
-    // Lock seats
     for (let s of seats) {
       await seatRepo.updateSeatStatus(client, s.id, 'LOCKED');
     }
 
-    // Create booking
     await bookingRepo.createBooking(client, bookingId, showId, 'CONFIRMED');
 
-    // Mark booked
     for (let s of seats) {
       await seatRepo.updateSeatStatus(client, s.id, 'BOOKED');
       await bookingRepo.mapSeats(client, bookingId, s.id);

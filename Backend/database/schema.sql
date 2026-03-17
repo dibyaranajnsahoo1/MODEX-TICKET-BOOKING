@@ -7,17 +7,17 @@ CREATE TABLE shows (
     created_at TIMESTAMP DEFAULT NOW()
 );
 
--- SEATS (Important for concurrency)
+
 CREATE TABLE seats (
     id SERIAL PRIMARY KEY,
     show_id INT REFERENCES shows(id) ON DELETE CASCADE,
     seat_number INT,
-    status TEXT DEFAULT 'AVAILABLE', -- AVAILABLE | LOCKED | BOOKED
+    status TEXT DEFAULT 'AVAILABLE', 
     locked_at TIMESTAMP,
     UNIQUE(show_id, seat_number)
 );
 
--- BOOKINGS
+
 CREATE TABLE bookings (
     id UUID PRIMARY KEY,
     show_id INT REFERENCES shows(id),
