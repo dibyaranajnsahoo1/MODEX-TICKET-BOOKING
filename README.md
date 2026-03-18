@@ -270,10 +270,17 @@ npm run dev
 
 # 📸 SCREENSHOTS
 
-- Home Page  
-- Admin Panel  
-- Seat Selection UI  
+- Home Page
+- <img width="1895" height="877" alt="image" src="https://github.com/user-attachments/assets/830ceda3-4123-4f39-aa96-1b61d5d6cc4d" />
+
+- Admin Panel
+- <img width="1919" height="630" alt="image" src="https://github.com/user-attachments/assets/af5d2e6f-239d-449f-aa3e-390c74b1318e" />
+
+- Seat Selection UI
+- <img width="1919" height="861" alt="image" src="https://github.com/user-attachments/assets/e8c5491a-8713-48dd-be52-0be3089a8779" />
+
 - Booking Success / Failure  
+<img width="1911" height="833" alt="image" src="https://github.com/user-attachments/assets/272ed9f6-b9bf-49d4-a762-decf492d0f37" />
 
 
 ---
