@@ -1,5 +1,5 @@
 import { useState } from "react";
-// import { api } from "../api/axios";
+import { api } from "../api/axios";
 import Alert from "../components/Alert";
 
 export default function Admin() {
@@ -13,24 +13,32 @@ export default function Admin() {
   const [status, setStatus] = useState("");
 
   const submit = async () => {
-  setError("");
+    setError("");
 
-  if (!form.name) return setError("Name required");
-  if (!form.start_time) return setError("Time required");
-  if (form.total_seats <= 0) return setError("Seats invalid");
+    if (!form.name.trim()) return setError("Movie name is required");
+    if (!form.start_time) return setError("Start time is required");
+    if (form.total_seats <= 0) return setError("Seats must be greater than 0");
 
-  try {
-    // const res = await api.post("/shows", form);
+    try {
+    
+      const res = await api.post("/shows", form);
+      console.log(res)
 
-    setStatus("CONFIRMED"); 
-    setForm({ name: "", start_time: "", total_seats: 40 });
+      setStatus("CONFIRMED");
+      setForm({
+        name: "",
+        start_time: "",
+        total_seats: 40
+      });
 
-  } catch {
-    setStatus("FAILED");     
-  }
+    } catch (err: any) {
+      setStatus("FAILED");
+      setError(err.response?.data?.message || "Failed to create show");
+    }
 
-  setTimeout(() => setStatus(""), 2000);
-};
+    setTimeout(() => setStatus(""), 2000);
+  };
+
   return (
     <div className="container">
       <div className="form-card">
@@ -41,12 +49,14 @@ export default function Admin() {
         <input
           className="input"
           placeholder="Movie Name"
+          value={form.name}
           onChange={e => setForm({ ...form, name: e.target.value })}
         />
 
         <input
           className="input"
           type="datetime-local"
+          value={form.start_time} 
           onChange={e => setForm({ ...form, start_time: e.target.value })}
         />
 
@@ -54,6 +64,7 @@ export default function Admin() {
           className="input"
           type="number"
           placeholder="Total Seats"
+          value={form.total_seats} 
           onChange={e =>
             setForm({ ...form, total_seats: Number(e.target.value) })
           }
@@ -62,8 +73,9 @@ export default function Admin() {
         <button className="btn" onClick={submit}>
           Create Show
         </button>
-        
       </div>
+
+      
       <Alert status={status} context="admin" />
     </div>
   );
