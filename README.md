@@ -61,6 +61,7 @@ MODEX-TICKET-BOOKING/
 │   │   │   ├── Navbar.tsx
 │   │   │   ├── Seat.tsx
 │   │   │   └── SeatGrid.tsx
+|   |   |   └── Alert.tsx
 │   │   │
 │   │   ├── context/
 │   │   │   ├── AuthContext.tsx
