@@ -4,10 +4,62 @@ import { Link } from "react-router-dom";
 
 export default function Home() {
   const [shows, setShows] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+
+  const messages = [
+    "Fetching shows 🎬",
+    "Loading latest movies 🍿",
+    "Almost ready...",
+  ];
+  const [msgIndex, setMsgIndex] = useState(0);
 
   useEffect(() => {
-    api.get("/shows").then(res => setShows(res.data));
+
+    api.get("/shows")
+      .then((res) => {
+        setShows(res.data);
+      })
+      .catch((err) => {
+        console.error(err);
+        setError("Failed to load shows 😢");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+
+   
+    const interval = setInterval(() => {
+      setMsgIndex((prev) => (prev + 1) % messages.length);
+    }, 1500);
+
+    return () => clearInterval(interval);
   }, []);
+
+
+  if (error) {
+    return (
+      <div className="container loading-container">
+        <h1 className="title">⚠️ Error</h1>
+        <p className="loading-text">{error}</p>
+      </div>
+    );
+  }
+
+
+  if (loading) {
+    return (
+      <div className="container loading-container">
+        <h1 className="title">🎬 {messages[msgIndex]}</h1>
+        <p className="loading-text">Please wait a moment...</p>
+
+        
+        <div className="spinner"></div>
+      </div>
+    );
+  }
+
 
   return (
     <div className="container">
@@ -30,11 +82,7 @@ export default function Home() {
 
           return (
             <div key={s.id} className="card movie-card">
-              
-              {/* Poster Placeholder */}
-              <div className="poster">
-                🎥
-              </div>
+              <div className="poster">🎥</div>
 
               <h3 className="movie-title">{s.name}</h3>
 

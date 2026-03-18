@@ -6,18 +6,31 @@ import Alert from "../components/Alert";
 
 export default function Booking() {
   const { id } = useParams();
+
   const [seats, setSeats] = useState([]);
   const [selected, setSelected] = useState<number[]>([]);
   const [status, setStatus] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   const fetchSeats = async () => {
-    const res = await api.get(`/shows/${id}/seats`);
-    setSeats(res.data);
+    try {
+      const res = await api.get(`/shows/${id}/seats`);
+      setSeats(res.data);
+      setError("");
+    } catch (err) {
+      console.error(err);
+      setError("Failed to load seats 😢");
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
     fetchSeats();
+
     const i = setInterval(fetchSeats, 3000);
+
     return () => clearInterval(i);
   }, [id]);
 
@@ -30,6 +43,8 @@ export default function Booking() {
   };
 
   const book = async () => {
+    if (selected.length === 0) return;
+
     try {
       const res = await api.post("/bookings", {
         show_id: Number(id),
@@ -46,9 +61,29 @@ export default function Booking() {
     setTimeout(() => setStatus(""), 2000);
   };
 
-const availableSeats = seats.filter((s: any) => s.status === "AVAILABLE").length;
+  const availableSeats = seats.filter(
+    (s: any) => s.status === "AVAILABLE"
+  ).length;
 
+  if (error) {
+    return (
+      <div className="container">
+        <h2>⚠️ Error</h2>
+        <p>{error}</p>
+      </div>
+    );
+  }
 
+  
+  if (loading) {
+    return (
+      <div className="container loading-container">
+        <h2>🎬 Loading Seats...</h2>
+        <p>Please wait while we fetch seat availability</p>
+        <div className="spinner"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="container">
@@ -63,17 +98,17 @@ const availableSeats = seats.filter((s: any) => s.status === "AVAILABLE").length
       />
 
       <p>Available Seats: {availableSeats}</p>
+      <p>Selected Seats: {selected.length}</p>
 
-        <p>Selected Seats: {selected.length}</p>
+      <button
+        className="btn"
+        onClick={book}
+        disabled={selected.length === 0}
+      >
+        Confirm Booking
+      </button>
 
-     <button
-  className="btn"
-  onClick={book}
-  disabled={selected.length === 0}
->
-  Confirm Booking
-</button>
-    <Alert status={status} context="booking" />
+      <Alert status={status} context="booking" />
     </div>
   );
 }
